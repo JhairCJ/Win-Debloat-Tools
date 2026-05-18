@@ -246,35 +246,6 @@ function Register-PersonalTweaksList() {
 
     Write-Status -Types "+", $TweakType -Status "Bringing back F8 alternative Boot Modes..."
     bcdedit /set `{current`} bootmenupolicy Legacy
-
-    Write-Section "Power Plan Tweaks"
-    $TimeoutScreenBattery = 5
-    $TimeoutScreenPluggedIn = 10
-
-    $TimeoutStandByBattery = 15
-    $TimeoutStandByPluggedIn = 30
-
-    $TimeoutDiskBattery = 20
-    $TimeoutDiskPluggedIn = 30
-
-    $TimeoutHibernateBattery = 15
-    $TimeoutHibernatePluggedIn = 15
-
-    Write-Status -Types "+", $TweakType -Status "Setting the Monitor Timeout to AC: $TimeoutScreenPluggedIn and DC: $TimeoutScreenBattery..."
-    powercfg -Change Monitor-Timeout-AC $TimeoutScreenPluggedIn
-    powercfg -Change Monitor-Timeout-DC $TimeoutScreenBattery
-
-    Write-Status -Types "+", $TweakType -Status "Setting the Standby Timeout to AC: $TimeoutStandByPluggedIn and DC: $TimeoutStandByBattery..."
-    powercfg -Change Standby-Timeout-AC $TimeoutStandByPluggedIn
-    powercfg -Change Standby-Timeout-DC $TimeoutStandByBattery
-
-    Write-Status -Types "+", $TweakType -Status "Setting the Disk Timeout to AC: $TimeoutDiskPluggedIn and DC: $TimeoutDiskBattery..."
-    powercfg -Change Disk-Timeout-AC $TimeoutDiskPluggedIn
-    powercfg -Change Disk-Timeout-DC $TimeoutDiskBattery
-
-    Write-Status -Types "+", $TweakType -Status "Setting the Hibernate Timeout to AC: $TimeoutHibernatePluggedIn and DC: $TimeoutHibernateBattery..."
-    powercfg -Change Hibernate-Timeout-AC $TimeoutHibernatePluggedIn
-    powercfg -Change Hibernate-Timeout-DC $TimeoutHibernateBattery
 }
 
 If (!$Revert) {

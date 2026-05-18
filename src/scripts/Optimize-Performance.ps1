@@ -1,7 +1,6 @@
 ﻿Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\Open-File.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\Get-HardwareInfo.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\Title-Templates.psm1"
-Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\Unregister-DuplicatedPowerPlan.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\debloat-helper\Remove-ItemPropertyVerified.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\lib\debloat-helper\Set-ItemPropertyVerified.psm1"
 Import-Module -DisableNameChecking "$PSScriptRoot\..\utils\Individual-Tweaks.psm1"
