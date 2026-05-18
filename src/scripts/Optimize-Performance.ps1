@@ -79,23 +79,6 @@ function Optimize-Performance() {
     Write-Status -Types $EnableStatus[0].Symbol, $TweakType -Status "$($EnableStatus[0].Status) run extensions and apps when Edge is closed..."
     Set-ItemPropertyVerified -Path "$PathToLMPoliciesEdge" -Name "BackgroundModeEnabled" -Type DWord -Value $Zero
 
-    Write-Section "Power Plan Tweaks"
-
-    If ($PCSystemType -eq 1) {
-        Write-Status -Types "+", $TweakType -Status "Desktop ($PCSystemType): Setting Power Plan to High Performance..."
-        powercfg -SetActive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
-    } ElseIf ($PCSystemType -eq 2) {
-        Write-Status -Types "@", $TweakType -Status "Laptop ($PCSystemType): Keeping current power plan..." -Warning
-    } Else {
-        Write-Status -Types "@", $TweakType -Status "Unknown ($PCSystemType): Keeping current power plan..." -Warning
-    }
-
-    Write-Status -Types "+", $TweakType -Status "Creating the Ultimate Performance hidden Power Plan..."
-    powercfg -DuplicateScheme e9a42b02-d5df-448d-aa00-03f14749eb61
-    Write-Host
-    Unregister-DuplicatedPowerPlan
-    Enable-Hibernate -Type 'Full'
-
     Write-Section "Network & Internet"
     Write-Status -Types "+", $TweakType -Status "Unlimiting your network bandwidth for all your system..." # Based on this Chris Titus video: https://youtu.be/7u1miYJmJ_4
     Set-ItemPropertyVerified -Path "$PathToLMPoliciesPsched" -Name "NonBestEffortLimit" -Type DWord -Value 0
