@@ -12,13 +12,6 @@ function Invoke-DebloatSoftware() {
         [Switch] $Revert
     )
 
-    If (!$Revert) {
-        $AdwCleanerDl = "https://downloads.malwarebytes.com/file/adwcleaner"
-        [String] $AdwCleanerOutput = (Request-FileDownload -FileURI $AdwCleanerDl -ExtendFolder "adwcleaner" -OutputFile "adwcleaner.exe")
-        Write-Status -Types "+" -Status "Running MalwareBytes AdwCleaner scanner..."
-        Start-Process -FilePath "$AdwCleanerOutput" -ArgumentList "/eula", "/clean", "/noreboot" -Wait
-        Remove-ItemVerified (Split-Path -Path $AdwCleanerOutput) -Force -Recurse
-    }
 
     Copy-Item -Path "$PSScriptRoot\..\configs\shutup10" -Destination "$(Get-TempScriptFolder)\downloads" -Recurse -Force
     $ShutUpDl = "https://dl5.oo-software.com/files/ooshutup10/OOSU10.exe"

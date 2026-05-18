@@ -1,17 +1,3 @@
-<!--
-Self reminder: If i'm willing to change the repository name (again...why???)
-I need to change these files:
-- src\lib\start-logging.psm1
-- src\lib\title-templates.psm1 (LOGO)
-- CONTRIBUTING.md
-- README.md
-- WinDebloatTools.ps1 (Window Title)
--->
-
-# ⚠️ This project is now archived
-
-**Final words:** Thank you all for participating in this project. It was a small project at first, but over time it became my graduation project. Now, it's big enough for me to be proud of. However, I couldn't handle the project's size. I apologize if I disappointed anyone or caused any headaches due to the script's functionality. But this time, I'm formally ending the project. Feel free to fork it and modify it however you like. I started to prioritized other things in my personal life, and as I didn't felt motivated to change other parts or solve the problems, I decided to close the project and be responsible. Take care!
-
 <h2 align="center">
 <img src="src/assets/script-logo.png" style="vertical-align: bottom" width="90%">
 
@@ -157,7 +143,7 @@ Set-ExecutionPolicy Unrestricted -Scope CurrentUser -Force; ls -Recurse *.ps*1 |
 #### System Debloat Tools
 
 - `Apply Tweaks`: Run every Common Tweak scripts ([Go To **☑️ Common Script Features** section](#%EF%B8%8F-common-script-features));
-- `Undo Tweaks`: Re-apply some tweaks and _Revert_ all possible ones, covering the, `ShutUp10 settings`, `Scheduled Tasks`, `Services`, `Privacy and Performance`, `Personal` and `Optional Features` tweaks, then try to `Reinstall Pre-Installed Apps`;
+- `Undo Tweaks`: Re-apply some tweaks and _Revert_ all possible ones, covering the `ShutUp10 settings`, `Scheduled Tasks`, `Services`, `Privacy and Performance`, `Personal` and `Optional Features` tweaks;
 - [`Remove Microsoft Edge`](./src/scripts/Remove-MSEdge.ps1): uninstalls **Microsoft Edge**, disables Scheduled Tasks and Services related to Edge, then remove the remaining files, **Edge Web View** files will remain untouched, but apps which depends on **WebView2** will not install unless you install Microsoft Edge;
 - [`Remove OneDrive`](./src/scripts/Remove-OneDrive.ps1): completely removes OneDrive from the System, re-install is possible via Win Store;
 - [`Remove Xbox`](./src/scripts/Remove-Xbox.ps1): wipe Xbox Apps, disable Services related to Xbox and GameBar/GameDVR;
@@ -173,7 +159,7 @@ _This section contains options to restore the system apps, by downloading them f
 _This section contains tools to solve some Windows problems and get info about how much debloated the system is._
 
 - [`Randomize System Color`](./src/scripts/other-scripts/New-SystemColor.ps1): Changes the Windows color pallette to a random generated hex color;
-- [`Reinstall Pre-Installed Apps`](./src/scripts/Install-DefaultAppsList.ps1): Rebloat Windows with all the Pre-Installed Apps;
+
 - [`Repair Windows`](./src/scripts/Repair-WindowsSystem.ps1): Try to Completely fix the Windows worst problems via Command Line;
 - [`Show Debloat Info`](./src/scripts/other-scripts/Show-DebloatInfo.ps1): Make an overall check-up from disabled and enabled Windows Components (Compare before and after applying tweaks, it's a great difference);
 

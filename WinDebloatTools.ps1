@@ -39,8 +39,6 @@ function Main() {
         Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\ui\New-LayoutPage.psm1" -Force
         Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\ui\Show-MessageDialog.psm1" -Force
         Import-Module -DisableNameChecking "$PSScriptRoot\src\lib\ui\Ui-Helper.psm1" -Force
-        Import-Module -DisableNameChecking "$PSScriptRoot\src\utils\Individual-Tweaks.psm1" -Force
-        Import-Module -DisableNameChecking "$PSScriptRoot\src\utils\Install-Individual-System-Apps.psm1" -Force
 
         Set-ConsoleStyle
 
@@ -143,8 +141,7 @@ function Show-GUI() {
 
     $FormTabControl = New-TabControl -Width ($LayoutT1.FormWidth - 8) -Height ($LayoutT1.FormHeight - 35) -LocationX -4 -LocationY 0
     $TabSystemTweaks = New-TabPage -Name "Tab1" -Text "System Tweaks"
-    $TabSoftwareInstall = New-TabPage -Name "Tab2" -Text "Software Install"
-    $TabSettings = New-TabPage -Name "Tab3" -Text "Settings"
+    $TabSettings = New-TabPage -Name "Tab2" -Text "Settings"
 
     $TlSystemTweaks = New-Label -Text "System Tweaks" -Width $LayoutT1.TotalWidth -Height $LayoutT1.TitleLabelHeight -LocationX 0 -LocationY $TitleLabelY -FontSize $LayoutT1.Heading[0] -FontStyle "Bold" -ForeColor $Colors.Cyan
     $ClSystemTweaks = New-Label -Text "Version $CurrentFileLastModified" -Width $LayoutT1.TotalWidth -Height $LayoutT1.CaptionLabelHeight -LocationX 0 -FontSize $LayoutT1.Heading[1] -ElementBefore $TlSystemTweaks -MarginTop $LayoutT1.DistanceBetweenElements -ForeColor $Colors.White
@@ -188,19 +185,6 @@ function Show-GUI() {
     $RemoveMSEdge = New-Button -Text "Remove Microsoft Edge" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $RemoveWindowsOld -MarginTop $LayoutT1.DistanceBetweenElements -ForeColor $Colors.WarningYellow
     $RemoveOneDrive = New-Button -Text "Remove OneDrive" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $RemoveMSEdge -MarginTop $LayoutT1.DistanceBetweenElements -ForeColor $Colors.WarningYellow
     $RemoveXbox = New-Button -Text "Remove Xbox" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $RemoveOneDrive -MarginTop $LayoutT1.DistanceBetweenElements -ForeColor $Colors.WarningYellow
-    $PictureBox1 = New-PictureBox -ImageLocation "$PSScriptRoot\src\assets\script-image.png" -Width $LayoutT1.PanelElementWidth -Height (($LayoutT1.ButtonHeight * 4) + ($LayoutT1.DistanceBetweenElements * 4)) -LocationX $LayoutT1.PanelElementX -ElementBefore $RemoveXbox -MarginTop $LayoutT1.DistanceBetweenElements -SizeMode 'Zoom'
-
-    $ClInstallSystemApps = New-Label -Text "Install System Apps" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CaptionLabelHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[2] -FontStyle 'Bold' -ElementBefore $PictureBox1
-    $InstallDolbyAudio = New-Button -Text "Dolby Audio" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $ClInstallSystemApps -MarginTop $LayoutT1.DistanceBetweenElements
-    $InstallMicrosoftEdge = New-Button -Text "Microsoft Edge" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $InstallDolbyAudio -MarginTop $LayoutT1.DistanceBetweenElements
-    $InstallOneDrive = New-Button -Text "OneDrive" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $InstallMicrosoftEdge -MarginTop $LayoutT1.DistanceBetweenElements
-    $InstallPaintPaint3D = New-Button -Text "Paint + Paint 3D" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $InstallOneDrive -MarginTop $LayoutT1.DistanceBetweenElements
-    $InstallPhoneLink = New-Button -Text "Phone Link" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $InstallPaintPaint3D -MarginTop $LayoutT1.DistanceBetweenElements
-    $InstallQuickAssist = New-Button -Text "Quick Assist" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $InstallPhoneLink -MarginTop $LayoutT1.DistanceBetweenElements
-    $InstallSoundRecorder = New-Button -Text "Sound Recorder" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $InstallQuickAssist -MarginTop $LayoutT1.DistanceBetweenElements
-    $InstallTaskbarWidgets = New-Button -Text "Taskbar Widgets" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $InstallSoundRecorder -MarginTop $LayoutT1.DistanceBetweenElements
-    $InstallUWPWMediaPlayer = New-Button -Text "Windows Media Player (UWP)" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $InstallTaskbarWidgets -MarginTop $LayoutT1.DistanceBetweenElements
-    $InstallXbox = New-Button -Text "Xbox" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $InstallUWPWMediaPlayer -MarginTop $LayoutT1.DistanceBetweenElements
 
     $ClOtherTools = New-Label -Text "Other Tools" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CaptionLabelHeight -LocationX $LayoutT1.PanelElementX -LocationY 0 -FontSize $LayoutT1.Heading[2] -FontStyle 'Bold' -ElementBefore $InstallXbox
     $RandomizeSystemColor = New-Button -Text "Randomize System Color" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $ClOtherTools
@@ -459,14 +443,12 @@ function Show-GUI() {
     # Add TabControl to the Form
     $Form.Controls.AddRange(@($FormTabControl))
     # Tabs
-    $FormTabControl.Controls.AddRange(@($TabSystemTweaks, $TabSoftwareInstall, $TabSettings))
+    $FormTabControl.Controls.AddRange(@($TabSystemTweaks, $TabSettings))
     $TabSystemTweaks.Controls.AddRange(@($TlSystemTweaks, $ClSystemTweaks, $T1Panel1, $T1Panel2, $T1Panel3))
-    $TabSoftwareInstall.Controls.AddRange(@($TlSoftwareInstall, $ClSoftwareInstall, $T2Panel1, $T2Panel2, $T2Panel3, $T2Panel4))
     $TabSettings.Controls.AddRange(@($TlSettings, $T3PanelPackageManagersSettings))
     # Add Elements to each Tab Panel
     $T1Panel1.Controls.AddRange(@($ClCustomizeFeatures, $CbDarkTheme, $CbActivityHistory, $CbBackgroundsApps, $CbClipboardHistory, $CbClipboardSyncAcrossDevice, $CbCortana, $CbHibernate, $CbLegacyContextMenu, $CbLocationTracking, $CbNewsAndInterest, $CbOldVolumeControl, $CbOnlineSpeechRecognition, $CbPhoneLink, $CbPhotoViewer, $CbSearchAppForUnknownExt, $CbTelemetry, $CbWindowsSpotlight, $CbXboxGameBarDVRandMode))
     $T1Panel2.Controls.AddRange(@($ClDebloatTools, $ApplyTweaks, $UndoTweaks, $DiskCleanUp, $RemoveTemporaryFiles, $RemoveWindowsOld, $RemoveMSEdge, $RemoveOneDrive, $RemoveXbox, $PictureBox1))
-    $T1Panel2.Controls.AddRange(@($ClInstallSystemApps, $InstallDolbyAudio, $InstallMicrosoftEdge, $InstallOneDrive, $InstallPaintPaint3D, $InstallPhoneLink, $InstallQuickAssist, $InstallSoundRecorder, $InstallTaskbarWidgets, $InstallUWPWMediaPlayer, $InstallXbox))
     $T1Panel2.Controls.AddRange(@($ClOtherTools, $RandomizeSystemColor, $ReinstallBloatApps, $RepairWindows, $ShowDebloatInfo))
     $T1Panel3.Controls.AddRange(@($ClWindowsUpdate, $CbAutomaticWindowsUpdate))
     $T1Panel3.Controls.AddRange(@($ClOptionalFeatures, $CbHyperV, $CbInternetExplorer, $CbPrintToPDFServices, $CbPrintingXPSServices, $CbWindowsMediaPlayer, $CbWindowsSandbox))
@@ -527,8 +509,7 @@ function Show-GUI() {
                 "Optimize-Performance.ps1",
                 "Register-PersonalTweaksList.ps1",
                 "Remove-CapabilitiesList.ps1",
-                "Optimize-WindowsFeaturesList.ps1",
-                "Install-DefaultAppsList.ps1"
+                "Optimize-WindowsFeaturesList.ps1"
             )
             Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
             Set-RevertStatus -Revert $false
@@ -569,52 +550,8 @@ function Show-GUI() {
             Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("Backup-System.ps1", "Repair-WindowsSystem.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
-    $InstallDolbyAudio.Add_Click( {
-            Install-DolbyAudio
-        })
-
-    $InstallMicrosoftEdge.Add_Click( {
-            Install-MicrosoftEdge
-        })
-
-    $InstallOneDrive.Add_Click( {
-            Install-OneDrive
-        })
-
-    $InstallPaintPaint3D.Add_Click( {
-            Install-PaintPaint3D
-        })
-
-    $InstallPhoneLink.Add_Click( {
-            Install-PhoneLink
-        })
-
-    $InstallQuickAssist.Add_Click( {
-            Install-QuickAssist
-        })
-
-    $InstallSoundRecorder.Add_Click( {
-            Install-SoundRecorder
-        })
-
-    $InstallTaskbarWidgets.Add_Click( {
-            Install-TaskbarWidgetsApp
-        })
-
-    $InstallUWPWMediaPlayer.Add_Click( {
-            Install-UWPWindowsMediaPlayer
-        })
-
-    $InstallXbox.Add_Click( {
-            Install-Xbox
-        })
-
     $RandomizeSystemColor.Add_Click( {
             Open-PowerShellFilesCollection -RelativeLocation "src\scripts\other-scripts" -Scripts @("New-SystemColor.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
-        })
-
-    $ReinstallBloatApps.Add_Click( {
-            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("Install-DefaultAppsList.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
     $ShowDebloatInfo.Add_Click( {
