@@ -91,16 +91,31 @@ function Open-DebloatScript {
         "Optimize-Privacy.ps1",
         "Optimize-Performance.ps1",
         "Register-PersonalTweaksList.ps1",
-        "Optimize-Security.ps1",
         "Remove-CapabilitiesList.ps1",
         "Optimize-WindowsFeaturesList.ps1"
     )
 
-    If ($Mode -eq 'CLI') {
-        Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage -OpenFromGUI $false
-    } ElseIf ($Mode -eq 'GUI') {
-        Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+    $ScriptDescriptions = @{
+        "Backup-System.ps1"                   = "Crear punto de restauración y respaldar archivo hosts"
+        "Invoke-DebloatSoftware.ps1"          = "Deshabilitar telemetría con O&O ShutUp10++"
+        "Optimize-TaskScheduler.ps1"          = "Deshabilitar tareas programadas innecesarias"
+        "Optimize-ServicesRunning.ps1"        = "Optimizar servicios de Windows"
+        "Remove-BloatwareAppsList.ps1"        = "Eliminar aplicaciones bloatware preinstaladas"
+        "Optimize-Privacy.ps1"                = "Aplicar tweaks de privacidad"
+        "Optimize-Performance.ps1"            = "Aplicar tweaks de rendimiento"
+        "Register-PersonalTweaksList.ps1"     = "Aplicar tweaks personalizados (UI, Explorador, etc.)"
+        "Remove-CapabilitiesList.ps1"         = "Eliminar capacidades de Windows innecesarias"
+        "Optimize-WindowsFeaturesList.ps1"    = "Deshabilitar características opcionales de Windows"
     }
+
+    If ($Mode -eq 'CLI') {
+        Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage -OpenFromGUI $false -Descriptions $ScriptDescriptions
+    } ElseIf ($Mode -eq 'GUI') {
+        Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage -Descriptions $ScriptDescriptions
+    }
+
+    Write-Status -Types "+", "Service" -Status "Restoring essential Windows service startup types..."
+    cmd.exe /c 'for %s in (Power WmiApSrv Winmgmt PlugPlay Schedule WdfSvc) do sc config %s start= auto'
 
     $Script:NeedRestart = $true
 }
@@ -511,7 +526,17 @@ function Show-GUI() {
                 "Remove-CapabilitiesList.ps1",
                 "Optimize-WindowsFeaturesList.ps1"
             )
-            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+            $UndoDescriptions = @{
+                "Invoke-DebloatSoftware.ps1"          = "Restaurar telemetría (O&O ShutUp10++)"
+                "Optimize-TaskScheduler.ps1"          = "Restaurar tareas programadas"
+                "Optimize-ServicesRunning.ps1"        = "Restaurar servicios de Windows"
+                "Optimize-Privacy.ps1"                = "Revertir tweaks de privacidad"
+                "Optimize-Performance.ps1"            = "Revertir tweaks de rendimiento"
+                "Register-PersonalTweaksList.ps1"     = "Revertir tweaks personalizados"
+                "Remove-CapabilitiesList.ps1"         = "Restaurar capacidades de Windows"
+                "Optimize-WindowsFeaturesList.ps1"    = "Restaurar características opcionales"
+            }
+            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage -Descriptions $UndoDescriptions
             Set-RevertStatus -Revert $false
             $PictureBox1.ImageLocation = "$PSScriptRoot\src\assets\peepo-leaving.gif"
             $PictureBox1.SizeMode = 'StretchImage'

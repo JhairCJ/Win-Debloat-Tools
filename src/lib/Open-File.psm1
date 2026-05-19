@@ -11,7 +11,8 @@ function Open-PowerShellFilesCollection {
         [String]   $DoneTitle,
         [String]   $DoneMessage,
         [Bool]     $OpenFromGUI = $true,
-        [Switch]   $NoDialog
+        [Switch]   $NoDialog,
+        [Hashtable] $Descriptions = @{}
     )
 
     Push-Location -Path $(Join-Path -Path "$PSScriptRoot\..\.." -ChildPath "$RelativeLocation")
@@ -20,6 +21,17 @@ function Open-PowerShellFilesCollection {
     ForEach ($FileName in $Scripts) {
         $LastAccessUtc = "$((Get-Item "$FileName").LastWriteTimeUtc | Get-Date -Format "yyyy.MM.dd")"
         $Private:Counter = Write-TitleCounter "$FileName | $LastAccessUtc" -Counter $Counter -MaxLength $Scripts.Length
+        If ($Descriptions.ContainsKey($FileName)) {
+            Try {
+                $Answer = Read-Host "`n¿$($Descriptions[$FileName])? [Y/n]"
+                If ($Answer -notmatch '^[Yy]' -and $Answer -ne '') {
+                    Write-Status -Types "-", "Skip" -Status "$FileName omitido" -Warning
+                    continue
+                }
+            } Catch {
+                # No hay consola disponible, continuar sin preguntar
+            }
+        }
         If ($OpenFromGUI) {
             Import-Module .\"$FileName" -Force
         } Else {
