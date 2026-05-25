@@ -96,16 +96,16 @@ function Open-DebloatScript {
     )
 
     $ScriptDescriptions = @{
-        "Backup-System.ps1"                   = "Crear punto de restauración y respaldar archivo hosts"
-        "Invoke-DebloatSoftware.ps1"          = "Deshabilitar telemetría con O&O ShutUp10++"
-        "Optimize-TaskScheduler.ps1"          = "Deshabilitar tareas programadas innecesarias"
-        "Optimize-ServicesRunning.ps1"        = "Optimizar servicios de Windows"
-        "Remove-BloatwareAppsList.ps1"        = "Eliminar aplicaciones bloatware preinstaladas"
-        "Optimize-Privacy.ps1"                = "Aplicar tweaks de privacidad"
-        "Optimize-Performance.ps1"            = "Aplicar tweaks de rendimiento"
-        "Register-PersonalTweaksList.ps1"     = "Aplicar tweaks personalizados (UI, Explorador, etc.)"
-        "Remove-CapabilitiesList.ps1"         = "Eliminar capacidades de Windows innecesarias"
-        "Optimize-WindowsFeaturesList.ps1"    = "Deshabilitar características opcionales de Windows"
+        "Backup-System.ps1"                   = "Create a system restore point and backup the hosts file"
+        "Invoke-DebloatSoftware.ps1"          = "Disable telemetry and privacy-invasive settings via O&O ShutUp10++"
+        "Optimize-TaskScheduler.ps1"          = "Disable unnecessary scheduled tasks that waste CPU and memory"
+        "Optimize-ServicesRunning.ps1"        = "Optimize Windows services — disable bloat, keep essentials"
+        "Remove-BloatwareAppsList.ps1"        = "Remove pre-installed bloatware UWP apps from all user accounts"
+        "Optimize-Privacy.ps1"                = "Apply privacy tweaks to reduce data collection and telemetry"
+        "Optimize-Performance.ps1"            = "Apply performance tweaks for faster boot, disk, and memory usage"
+        "Register-PersonalTweaksList.ps1"     = "Apply personalization tweaks (UI, File Explorer, context menu)"
+        "Remove-CapabilitiesList.ps1"         = "Remove unnecessary Windows capabilities (OnDemand features)"
+        "Optimize-WindowsFeaturesList.ps1"    = "Disable optional Windows features (Hyper-V, Media Player, etc.)"
     }
 
     If ($Mode -eq 'CLI') {
@@ -194,7 +194,9 @@ function Show-GUI() {
     $ClDebloatTools = New-Label -Text "System Debloat Tools" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CaptionLabelHeight -LocationX $LayoutT1.PanelElementX -LocationY 0 -FontSize $LayoutT1.Heading[2] -FontStyle 'Bold'
     $ApplyTweaks = New-Button -Text "Apply Tweaks" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -ElementBefore $ClDebloatTools -FontSize $LayoutT1.Heading[3] -FontStyle 'Bold' -BackColor $Colors.Cyan -ForeColor $Colors.DarkGray
     $UndoTweaks = New-Button -Text "Undo Tweaks" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $ApplyTweaks -MarginTop $LayoutT1.DistanceBetweenElements -BackColor $Colors.WarningYellow -ForeColor $Colors.DarkGray
-    $DiskCleanUp = New-Button -Text "Run a Disk Cleanup" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $UndoTweaks -MarginTop $LayoutT1.DistanceBetweenElements -ForeColor $Colors.Cyan
+    $ServiceTweaksRevision = New-Button -Text "Revision Service Tweaks" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $UndoTweaks -MarginTop $LayoutT1.DistanceBetweenElements -ForeColor $Colors.Cyan
+    $ServiceTweaksAtlas = New-Button -Text "Atlas Service Tweaks" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $ServiceTweaksRevision -MarginTop $LayoutT1.DistanceBetweenElements -ForeColor $Colors.Cyan
+    $DiskCleanUp = New-Button -Text "Run a Disk Cleanup" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $ServiceTweaksAtlas -MarginTop $LayoutT1.DistanceBetweenElements -ForeColor $Colors.Cyan
     $RemoveTemporaryFiles = New-Button -Text "Remove Temporary Files" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $DiskCleanUp -MarginTop $LayoutT1.DistanceBetweenElements -ForeColor $Colors.Cyan
     $RemoveWindowsOld = New-Button -Text "Remove Windows.old Folder" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $RemoveTemporaryFiles -MarginTop $LayoutT1.DistanceBetweenElements -ForeColor $Colors.WarningYellow
     $RemoveMSEdge = New-Button -Text "Remove Microsoft Edge" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.ButtonHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $RemoveWindowsOld -MarginTop $LayoutT1.DistanceBetweenElements -ForeColor $Colors.WarningYellow
@@ -224,8 +226,8 @@ function Show-GUI() {
 
     $ClServices = New-Label -Text "Services" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CaptionLabelHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[2] -FontStyle 'Bold' -ElementBefore $CbFamilySafety
     $CbWindowsSearch = New-CheckBox -Text "Windows Search Indexing" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $ClServices
-
-    $ClWindowsCapabilities = New-Label -Text "Windows Capabilities" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CaptionLabelHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[2] -FontStyle 'Bold' -ElementBefore $CbWindowsSearch
+    $CbDynamicTick = New-CheckBox -Text "Disable Dynamic Tick" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $CbWindowsSearch
+    $ClWindowsCapabilities = New-Label -Text "Windows Capabilities" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CaptionLabelHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[2] -FontStyle 'Bold' -ElementBefore $CbDynamicTick -MarginTop $LayoutT1.DistanceBetweenElements
     $CbPowerShellISE = New-CheckBox -Text "PowerShell ISE" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CheckBoxHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[3] -ElementBefore $ClWindowsCapabilities
 
     $ClMiscFeatures = New-Label -Text "Miscellaneous Features" -Width $LayoutT1.PanelElementWidth -Height $LayoutT1.CaptionLabelHeight -LocationX $LayoutT1.PanelElementX -FontSize $LayoutT1.Heading[2] -FontStyle 'Bold' -ElementBefore $CbPowerShellISE
@@ -463,12 +465,12 @@ function Show-GUI() {
     $TabSettings.Controls.AddRange(@($TlSettings, $T3PanelPackageManagersSettings))
     # Add Elements to each Tab Panel
     $T1Panel1.Controls.AddRange(@($ClCustomizeFeatures, $CbDarkTheme, $CbActivityHistory, $CbBackgroundsApps, $CbClipboardHistory, $CbClipboardSyncAcrossDevice, $CbCortana, $CbHibernate, $CbLegacyContextMenu, $CbLocationTracking, $CbNewsAndInterest, $CbOldVolumeControl, $CbOnlineSpeechRecognition, $CbPhoneLink, $CbPhotoViewer, $CbSearchAppForUnknownExt, $CbTelemetry, $CbWindowsSpotlight, $CbXboxGameBarDVRandMode))
-    $T1Panel2.Controls.AddRange(@($ClDebloatTools, $ApplyTweaks, $UndoTweaks, $DiskCleanUp, $RemoveTemporaryFiles, $RemoveWindowsOld, $RemoveMSEdge, $RemoveOneDrive, $RemoveXbox, $PictureBox1))
+    $T1Panel2.Controls.AddRange(@($ClDebloatTools, $ApplyTweaks, $UndoTweaks, $ServiceTweaksRevision, $ServiceTweaksAtlas, $DiskCleanUp, $RemoveTemporaryFiles, $RemoveWindowsOld, $RemoveMSEdge, $RemoveOneDrive, $RemoveXbox, $PictureBox1))
     $T1Panel2.Controls.AddRange(@($ClOtherTools, $RandomizeSystemColor, $ReinstallBloatApps, $RepairWindows, $ShowDebloatInfo))
     $T1Panel3.Controls.AddRange(@($ClWindowsUpdate, $CbAutomaticWindowsUpdate))
     $T1Panel3.Controls.AddRange(@($ClOptionalFeatures, $CbHyperV, $CbInternetExplorer, $CbPrintToPDFServices, $CbPrintingXPSServices, $CbWindowsMediaPlayer, $CbWindowsSandbox))
     $T1Panel3.Controls.AddRange(@($ClTaskScheduler, $CbFamilySafety))
-    $T1Panel3.Controls.AddRange(@($ClServices, $CbWindowsSearch))
+    $T1Panel3.Controls.AddRange(@($ClServices, $CbWindowsSearch, $CbDynamicTick))
     $T1Panel3.Controls.AddRange(@($ClWindowsCapabilities, $CbPowerShellISE))
     $T1Panel3.Controls.AddRange(@($ClMiscFeatures, $CbEncryptedDNS, $CbGodMode, $CbMouseAcceleration, $CbMouseNaturalScroll, $CbTakeOwnership, $CbFastShutdownPCShortcut))
 
@@ -527,14 +529,14 @@ function Show-GUI() {
                 "Optimize-WindowsFeaturesList.ps1"
             )
             $UndoDescriptions = @{
-                "Invoke-DebloatSoftware.ps1"          = "Restaurar telemetría (O&O ShutUp10++)"
-                "Optimize-TaskScheduler.ps1"          = "Restaurar tareas programadas"
-                "Optimize-ServicesRunning.ps1"        = "Restaurar servicios de Windows"
-                "Optimize-Privacy.ps1"                = "Revertir tweaks de privacidad"
-                "Optimize-Performance.ps1"            = "Revertir tweaks de rendimiento"
-                "Register-PersonalTweaksList.ps1"     = "Revertir tweaks personalizados"
-                "Remove-CapabilitiesList.ps1"         = "Restaurar capacidades de Windows"
-                "Optimize-WindowsFeaturesList.ps1"    = "Restaurar características opcionales"
+                "Invoke-DebloatSoftware.ps1"          = "Restore telemetry and privacy settings to Windows defaults"
+                "Optimize-TaskScheduler.ps1"          = "Re-enable all previously disabled scheduled tasks"
+                "Optimize-ServicesRunning.ps1"        = "Restore Windows services to their original startup types"
+                "Optimize-Privacy.ps1"                = "Revert all privacy tweaks — re-enable data collection"
+                "Optimize-Performance.ps1"            = "Revert performance tweaks to default system settings"
+                "Register-PersonalTweaksList.ps1"     = "Revert personalization tweaks (UI, Explorer, menus)"
+                "Remove-CapabilitiesList.ps1"         = "Re-add all removed Windows capabilities"
+                "Optimize-WindowsFeaturesList.ps1"    = "Re-enable all disabled optional Windows features"
             }
             Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts $Scripts -DoneTitle $DoneTitle -DoneMessage $DoneMessage -Descriptions $UndoDescriptions
             Set-RevertStatus -Revert $false
@@ -851,6 +853,24 @@ function Show-GUI() {
                 Disable-WindowsSearch
                 $CbWindowsSearch.Text = "[OFF] Windows Search Indexing"
             }
+        })
+
+    $CbDynamicTick.Add_Click( {
+            If ($CbDynamicTick.CheckState -eq "Checked") {
+                cmd.exe /c 'bcdedit /set disabledynamictick yes'
+                $CbDynamicTick.Text = "[ON]  Dynamic Tick Disabled *"
+            } Else {
+                cmd.exe /c 'bcdedit /deletevalue disabledynamictick'
+                $CbDynamicTick.Text = "[OFF] Dynamic Tick"
+            }
+        })
+
+    $ServiceTweaksRevision.Add_Click( {
+            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("Optimize-ServicesRevision.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
+        })
+
+    $ServiceTweaksAtlas.Add_Click( {
+            Open-PowerShellFilesCollection -RelativeLocation "src\scripts" -Scripts @("Optimize-ServicesAtlas.ps1") -DoneTitle $DoneTitle -DoneMessage $DoneMessage
         })
 
     $CbPowerShellISE.Add_Click( {
